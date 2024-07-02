@@ -1,3 +1,3 @@
 import { persisted } from "svelte-persisted-store";
 
-export let name=persisted('name','Unknown');
+export let tasks=persisted<Task[]>('tasks',[]);
