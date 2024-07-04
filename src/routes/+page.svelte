@@ -1,15 +1,39 @@
-<script>
+<script lang="ts">
   import dayjs from "dayjs";
   import TaskInput from "$lib/TaskInput.svelte";
   import Header from "$lib/header.svelte";
   import { tasks } from "$lib/stores/tasks";
   import relativeTime from "dayjs/plugin/relativeTime"
+  import { quintOut } from 'svelte/easing';
   dayjs.extend(relativeTime);
+import { getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
+import { slide } from 'svelte/transition';
+const modalStore = getModalStore();
+ 
+function confirmDelete(task:Task){
+  const modal: ModalSettings= {
+	type: 'confirm',
+	// Data
+	title: 'Are you sure you want to delete?',
+	body: `This task will be deleted: "${task.title}"`,
+	// TRUE if confirm pressed, FALSE if cancel pressed
+	response: (r: boolean) => {
+    if(r){
+      tasks.update((currentTasks)=>{
+        let indix=$tasks.indexOf(task)
+        currentTasks.splice(indix,1)
+        return currentTasks;
+      });
+      }
+
+    },
   
-import { getModalStore } from '@skeletonlabs/skeleton';
-			
-  const modalStore = getModalStore();
-            
+};
+modalStore.trigger(modal);
+
+}
+
+
 
 </script>
 
@@ -24,6 +48,7 @@ import { getModalStore } from '@skeletonlabs/skeleton';
     {#each $tasks as task}
     {#if !task.isDone}
       <li
+     transition:slide
         class="bg-[#e9cbfe] p-2 lg:p-4 rounded-lg flex justify-between items-center"
       >
         <div>
@@ -42,6 +67,7 @@ import { getModalStore } from '@skeletonlabs/skeleton';
             {dayjs().to(dayjs(task.date))}
           </button>
           <button
+          on:click={()=>confirmDelete(task)}
             class="btn variant-soft-filled-surface bg-white rounded-lg hover:bg-[#b339e8] p-2"
           >
           <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 4c-4.419 0-8 3.582-8 8s3.581 8 8 8s8-3.582 8-8s-3.581-8-8-8m3.707 10.293a.999.999 0 1 1-1.414 1.414L12 13.414l-2.293 2.293a.997.997 0 0 1-1.414 0a.999.999 0 0 1 0-1.414L10.586 12L8.293 9.707a.999.999 0 1 1 1.414-1.414L12 10.586l2.293-2.293a.999.999 0 1 1 1.414 1.414L13.414 12z"/></svg>
@@ -77,6 +103,7 @@ import { getModalStore } from '@skeletonlabs/skeleton';
           {dayjs().to(dayjs(task.date))}
         </button>
         <button
+        on:click={()=>confirmDelete(task)}
           class="btn variant-soft-filled-surface bg-white rounded-lg hover:bg-[#b339e8] p-2"
         >
         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 4c-4.419 0-8 3.582-8 8s3.581 8 8 8s8-3.582 8-8s-3.581-8-8-8m3.707 10.293a.999.999 0 1 1-1.414 1.414L12 13.414l-2.293 2.293a.997.997 0 0 1-1.414 0a.999.999 0 0 1 0-1.414L10.586 12L8.293 9.707a.999.999 0 1 1 1.414-1.414L12 10.586l2.293-2.293a.999.999 0 1 1 1.414 1.414L13.414 12z"/></svg>
