@@ -8,8 +8,8 @@
     tasks.update((currentTask) => {
       currentTask.push({
         title,
-        assignedDate: dayjs(),
-        Done: false,
+        date: dayjs().format(),
+        isDone: false,
       });
       return currentTask;
     });
