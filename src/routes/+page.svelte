@@ -6,9 +6,10 @@
   import relativeTime from "dayjs/plugin/relativeTime"
   import { quintOut } from 'svelte/easing';
   dayjs.extend(relativeTime);
-import { getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
-import { slide } from 'svelte/transition';
-const modalStore = getModalStore();
+  import { getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
+  import { slide } from 'svelte/transition';
+  import { filter } from "$lib/filter";
+  const modalStore = getModalStore();
  
 function confirmDelete(task:Task){
   const modal: ModalSettings= {
@@ -32,8 +33,16 @@ function confirmDelete(task:Task){
 modalStore.trigger(modal);
 
 }
+function applyfilter(  filter:typeof $filter,task:Task):boolean{
+switch(filter){
+  case "Today's tasks":
+  return dayjs(task.date).unix() - dayjs().unix() <= 24*60*60;
 
-
+  case "All tasks":
+  default:
+    return true;
+}
+}
 
 </script>
 
@@ -43,10 +52,16 @@ modalStore.trigger(modal);
   <Header />
   <TaskInput />
 
+{#if $tasks.length == 0}
+<div class="flex flex-col items-center justify-center">
+<img src="/butterfly.png" alt="butterfly" class="r w-48 h-48 ">
+</div>
+{:else}
+  {#if $tasks.filter((task)=> !task.isDone).length>0}
   <ol class="gap-2 flex flex-col">
     <h3>left tasks:</h3>
     {#each $tasks as task}
-    {#if !task.isDone}
+    {#if !task.isDone && applyfilter($filter,task)}
       <li
      transition:slide
         class="bg-[#e9cbfe] p-2 lg:p-4 rounded-lg flex justify-between items-center"
@@ -79,11 +94,13 @@ modalStore.trigger(modal);
       {/if}
     {/each}
   </ol>
+{/if}
 
+{#if $tasks.filter((task)=> task.isDone).length>0}
 <ol class="gap-2 flex flex-col">
   <h3>completed tasks:</h3>
   {#each $tasks as task}
-  {#if task.isDone}
+  {#if task.isDone && applyfilter($filter,task)}
     <li
       class="bg-[#e9cbfe] p-2 lg:p-4 rounded-lg flex justify-between items-center"
     >
@@ -115,5 +132,7 @@ modalStore.trigger(modal);
     {/if}
   {/each}
 </ol>
+{/if}
+{/if}
 </div>
 

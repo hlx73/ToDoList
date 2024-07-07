@@ -4,24 +4,36 @@
     import { tasks } from "./stores/tasks";
 
   let title = "";
+  let dateTime=dayjs().format('YYYY-MM-DDTHH:mm');
   function AddTask() {
     tasks.update((currentTask) => {
       currentTask.push({
         title,
-        date: dayjs().format(),
+        date: dateTime,
         isDone: false,
       });
-      return currentTask;
+      return currentTask.sort((a:Task,b:Task)=>{
+       return dayjs(a.date).unix() - dayjs(b.date).unix();
+      });
     });
   }
 </script>
 
-<div class="input-group input-group-divider flex justify-between rounded-full">
+<div class="input-group input-group-divider flex flex-col md:flex-row   justify-between  rounded-md ">
   <input
     bind:value={title}
     class="flex-1"
     type="search"
     placeholder="Task title..."
   />
-  <button on:click={AddTask} class="bg-slate-300">Submit</button>
+  <input
+bind:value={dateTime} 
+  class="input sm:w-fit"
+   title="Input (datetime-local)" 
+  type="datetime-local" />
+  <button on:click={AddTask} class="bg-slate-300 p-2 ">
+    <span class=" mx-auto ">
+      Submit
+    </span>
+  </button>
 </div>

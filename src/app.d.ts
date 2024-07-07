@@ -12,7 +12,7 @@ declare namespace App {
 declare global{
 	interface Task{
 		title:String;
-		date:STring;
+		date:string;
 		isDone:boolean;
 		
 	}
