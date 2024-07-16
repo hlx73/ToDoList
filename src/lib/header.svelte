@@ -17,7 +17,7 @@ const popupCombobox: PopupSettings = {
 </script>
 <header class="flex justify-between">
   <div>
-    <h1 class="text-2xl mb-2">
+    <h1 class="text-2xl mb-2 ">
       Good {period} 👋
     </h1>
     <h2 class="text-gray-500 text-">
@@ -32,8 +32,8 @@ const popupCombobox: PopupSettings = {
 
 <div class="card w-48 shadow-xl py-2  bg-white" data-popup="popupCombobox">
 	<ListBox rounded="rounded-none" active="bg-[#b339e8]">
-		<ListBoxItem bind:group={$filter} name="medium" value="All Tasks">All tasks</ListBoxItem>
-		<ListBoxItem bind:group={$filter} name="medium" value="Today's Tasks">Today's tasks</ListBoxItem>
+		<ListBoxItem bind:group={$filter} name="medium" value="All tasks">All tasks</ListBoxItem>
+		<ListBoxItem bind:group={$filter} name="medium" value="Today's tasks">Today's tasks</ListBoxItem>
   </ListBox>
 	<div class="arrow bg-surface-100-800-token" />
 </div>

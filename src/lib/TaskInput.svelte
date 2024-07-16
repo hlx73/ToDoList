@@ -19,7 +19,7 @@
   }
 </script>
 
-<div class="input-group input-group-divider flex flex-col md:flex-row   justify-between  rounded-md ">
+<form class="input-group input-group-divider flex flex-col md:flex-row   justify-between  rounded-md ">
   <input
     bind:value={title}
     class="flex-1"
@@ -31,9 +31,10 @@ bind:value={dateTime}
   class="input sm:w-fit"
    title="Input (datetime-local)" 
   type="datetime-local" />
-  <button on:click={AddTask} class="bg-slate-300 p-2 ">
+  <button type="submit" on:click={AddTask} class="bg-slate-300 p-2 {title.trim().length==0 && 'bg-black cd'}}" 
+  disabled={title.trim().length==0}>
     <span class=" mx-auto ">
       Submit
     </span>
   </button>
-</div>
+</form>

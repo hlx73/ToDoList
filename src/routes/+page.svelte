@@ -45,6 +45,11 @@ switch(filter){
 }
 
 </script>
+<svelte:head>
+<title>
+  Tasks tracker Hadeel
+</title>
+</svelte:head>
 
 <div
   class="p-2 pt-8 sm:p-4 md:p-8 xl:p-16 flex flex-col gap-8 max-w-screen-lg mx-auto md:bg h-full w-full]',mjh"
