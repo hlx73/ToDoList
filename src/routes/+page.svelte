@@ -47,7 +47,7 @@ switch(filter){
 </script>
 <svelte:head>
 <title>
-  Tasks tracker Hadeel
+  Tasks list Hadeel
 </title>
 </svelte:head>
 
@@ -59,7 +59,7 @@ switch(filter){
 
 {#if $tasks.length == 0}
 <div class="flex flex-col items-center justify-center">
-<img src="/butterfly.png" alt="butterfly" class="r w-48 h-48 ">
+<img src="/butterfly2.png" alt="butterfly" class="r w-48 h-48 ">
 </div>
 {:else}
   {#if $tasks.filter((task)=> !task.isDone).length>0}
